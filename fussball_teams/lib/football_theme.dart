@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fussball_teams/constants.dart';
 
 class FootballTheme {
   static const TextTheme textTheme = TextTheme(
@@ -14,10 +15,12 @@ class FootballTheme {
     ),
     subtitle1: TextStyle(
       fontSize: 16.0,
+      fontWeight: FontWeight.normal,
       color: Colors.black,
     ),
     subtitle2: TextStyle(
       fontSize: 14.0,
+      fontWeight: FontWeight.normal,
       color: Colors.grey,
     ),
     headline1: TextStyle(
@@ -47,13 +50,13 @@ class FootballTheme {
       brightness: Brightness.light,
       appBarTheme: const AppBarTheme(
         foregroundColor: Colors.white,
-        backgroundColor: Color(0xFF01C13B),
+        backgroundColor: kHauptFarbe,
       ),
       textTheme: textTheme,
-      primaryColor: const Color(0xFF01C13B),
+      primaryColor: kHauptFarbe,
       primarySwatch: Colors.blue,
       colorScheme: ColorScheme.fromSwatch(
-        accentColor: const Color(0xFF01C13B),
+        accentColor: kHauptFarbe,
       ),
     );
   }

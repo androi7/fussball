@@ -12,8 +12,8 @@ import 'screens/teams_screen.dart';
 import 'services/api.dart';
 
 void main() {
-  runApp(const MyApp());
   Intl.defaultLocale = 'de_DE';
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

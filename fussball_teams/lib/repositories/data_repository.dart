@@ -16,7 +16,7 @@ class DataRepository {
       for (var team in data) {
         teams.add(Team.fromJson(team));
       }
-
+      teams = sortieren(teams: teams);
       return teams;
     } on Response catch (e, st) {
       print('Anfragefehler: $e, $st');
