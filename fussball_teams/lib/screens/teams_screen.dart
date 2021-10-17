@@ -7,6 +7,7 @@ import 'package:fussball_teams/components/show_alert_dialog.dart';
 import 'package:fussball_teams/repositories/data_repository.dart';
 import 'package:fussball_teams/services/api.dart';
 import 'package:fussball_teams/services/api_service.dart';
+import 'package:fussball_teams/services/location_service.dart';
 import 'package:provider/provider.dart';
 
 // Komponenten
@@ -49,6 +50,15 @@ class _TeamsScreenState extends State<TeamsScreen> {
     _future = _dataRepository.erhalteFussballTeams();
 
     // _future = APIService(API()).erhalteEndpoint(endpoint: Endpoint.teams);
+  }
+
+  @override
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
+    String? countryName =
+        await Provider.of<LocationService>(context, listen: false)
+            .erhalteLandName();
+    print('LaenderName: $countryName');
   }
 
   void _toggleFilter() {

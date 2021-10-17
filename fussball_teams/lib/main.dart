@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fussball_teams/services/api_service.dart';
+import 'package:fussball_teams/services/location_service.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -22,8 +23,26 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = FootballTheme.themeData();
-    return Provider<DataRepository>(
-      create: (_) => DataRepository(apiService: APIService(API())),
+    // return Provider<DataRepository>(
+    //   create: (_) => DataRepository(apiService: APIService(API())),
+    //   child: MaterialApp(
+    //     title: 'Fussball Teams',
+    //     debugShowCheckedModeBanner: false,
+    //     theme: theme,
+    //     home: const TeamsScreen(),
+    //   ),
+    // );
+    return MultiProvider(
+      providers: [
+        Provider<DataRepository>(
+          create: (_) => DataRepository(
+            apiService: APIService(API()),
+          ),
+        ),
+        Provider<LocationService>(
+          create: (_) => LocationService(),
+        ),
+      ],
       child: MaterialApp(
         title: 'Fussball Teams',
         debugShowCheckedModeBanner: false,
