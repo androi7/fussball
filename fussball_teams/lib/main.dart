@@ -23,15 +23,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = FootballTheme.themeData();
-    // return Provider<DataRepository>(
-    //   create: (_) => DataRepository(apiService: APIService(API())),
-    //   child: MaterialApp(
-    //     title: 'Fussball Teams',
-    //     debugShowCheckedModeBanner: false,
-    //     theme: theme,
-    //     home: const TeamsScreen(),
-    //   ),
-    // );
     return MultiProvider(
       providers: [
         Provider<DataRepository>(
