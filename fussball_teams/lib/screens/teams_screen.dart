@@ -50,6 +50,16 @@ class _TeamsScreenState extends State<TeamsScreen> {
     });
   }
 
+  Future<void> _erhalteNeueDaten() async {
+    _future = _dataRepository.erhalteFussballTeams();
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text('Neue Daten'),
+      duration: Duration(seconds: 1),
+    ));
+    // setState wird nur aufgerufen, um die Seite zu aktualisieren.
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,34 +88,37 @@ class _TeamsScreenState extends State<TeamsScreen> {
         ],
       ),
       body: SafeArea(
-        child: FutureBuilder<List<Team>>(
-          future: _future,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                return _buildFallbackWidget(
-                    image: 'assets/images/error.jpeg',
-                    text: 'Etwas ist schief gelaufen');
-              }
-              if (snapshot.hasData) {
-                _teams = snapshot.data as List<Team>;
-                return _teams.isNotEmpty
-                    ? _buildListView(_teams)
-                    : _buildFallbackWidget(
-                        image: 'assets/images/soccer-ball.png',
-                        text: 'Keine Daten vorhanden');
-              }
+        child: RefreshIndicator(
+          onRefresh: _erhalteNeueDaten,
+          child: FutureBuilder<List<Team>>(
+            future: _future,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasError) {
+                  return _buildFallbackWidget(
+                      image: 'assets/images/error.jpeg',
+                      text: 'Etwas ist schief gelaufen');
+                }
+                if (snapshot.hasData) {
+                  _teams = snapshot.data as List<Team>;
+                  return _teams.isNotEmpty
+                      ? _buildListView(_teams)
+                      : _buildFallbackWidget(
+                          image: 'assets/images/soccer-ball.png',
+                          text: 'Keine Daten vorhanden');
+                }
 
-              return _buildFallbackWidget(
-                  image: 'assets/images/soccer-ball.png',
-                  text: 'Keine Daten vorhanden');
-            }
-            return const Center(
-              child: CircularProgressIndicator(
-                color: Color(0xFF01C13B),
-              ),
-            );
-          },
+                return _buildFallbackWidget(
+                    image: 'assets/images/soccer-ball.png',
+                    text: 'Keine Daten vorhanden');
+              }
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: Color(0xFF01C13B),
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

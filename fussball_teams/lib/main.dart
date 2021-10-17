@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fussball_teams/services/api_service.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 // Theme
@@ -12,6 +13,7 @@ import 'services/api.dart';
 
 void main() {
   runApp(const MyApp());
+  Intl.defaultLocale = 'de_DE';
 }
 
 class MyApp extends StatelessWidget {
