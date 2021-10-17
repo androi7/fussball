@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 import 'api.dart';
 
@@ -13,12 +14,14 @@ class APIService {
     required Endpoint endpoint,
   }) async {
     final uri = api.endpointUri(endpoint);
+
     final response = await http.get(
       uri,
       // headers: {
       //   HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8'
       // },
     );
+
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(utf8.decode(response.bodyBytes));
       if (data.isNotEmpty) {

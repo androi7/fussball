@@ -18,8 +18,7 @@ class DataRepository {
       }
       teams = sortieren(teams: teams);
       return teams;
-    } on Response catch (e, st) {
-      print('Anfragefehler: $e, $st');
+    } on Response catch (_) {
       rethrow;
     }
   }

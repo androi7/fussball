@@ -1,4 +1,9 @@
+import 'dart:ffi';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:fussball_teams/components/show_alert_dialog.dart';
 import 'package:fussball_teams/repositories/data_repository.dart';
 import 'package:fussball_teams/services/api.dart';
 import 'package:fussball_teams/services/api_service.dart';
@@ -39,8 +44,10 @@ class _TeamsScreenState extends State<TeamsScreen> {
     super.initState();
     // _future = MockApiService().erhalteTeams();
     // _future = test();
+
     _dataRepository = Provider.of<DataRepository>(context, listen: false);
     _future = _dataRepository.erhalteFussballTeams();
+
     // _future = APIService(API()).erhalteEndpoint(endpoint: Endpoint.teams);
   }
 
@@ -97,6 +104,16 @@ class _TeamsScreenState extends State<TeamsScreen> {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
+                  if (snapshot.error.runtimeType == SocketException) {
+                    WidgetsBinding.instance?.addPostFrameCallback((_) {
+                      showAlertDialog(
+                        context: context,
+                        title: 'Keine Internetverbindung',
+                        content: 'Bitte überprüfen Sie ihre Internetverbindung',
+                        defaultActionText: 'OK',
+                      );
+                    });
+                  }
                   return _buildFallbackWidget(
                       image: 'assets/images/error.jpeg',
                       text: 'Etwas ist schief gelaufen');
@@ -126,11 +143,11 @@ class _TeamsScreenState extends State<TeamsScreen> {
     );
   }
 
-  Widget _buildListView(List<Team?> teams) {
+  Widget _buildListView(List<Team> teams) {
     return ListView.separated(
       itemCount: teams.length,
       itemBuilder: (context, index) {
-        final team = teams[index] as Team;
+        final team = teams[index];
         return TeamCard(
           image: team.image,
           team: team.name,
