@@ -1,12 +1,15 @@
 import 'dart:convert';
 
+// Packages
 import 'package:flutter/services.dart';
 
+// Modelle
 import '../models/models.dart';
 
+/// Diese Klasse ahmt einen Server nach, der die Informationen
+/// von einer lokalen JSON Datei (assets/sample_data/sample_teams.json)
+/// abruft.
 class MockApiService {
-  // List<Team> _teams = [];
-
   Future<List<Team>> erhalteTeams() async {
     await Future.delayed(const Duration(milliseconds: 500));
     final jsonString = await _ladeDaten('assets/sample_data/sample_teams.json');
@@ -17,7 +20,6 @@ class MockApiService {
       for (var team in json) {
         teams.add(Team.fromJson(team));
       }
-      // _teams.addAll(teams);
       return sortieren(teams: teams, nachName: true);
     } else {
       return [];

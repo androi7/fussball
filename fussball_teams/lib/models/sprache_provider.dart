@@ -7,6 +7,8 @@ enum Sprache {
   polnisch,
 }
 
+/// Der SpracheProvider legt die [Sprache] und die Laenderlokale
+/// anhand des ihm übergebenen Laendercodes fest.
 class SpracheProvider extends ChangeNotifier {
   Sprache _sprache = Sprache.deutsch;
   String _laenderLokale = 'de_DE';
@@ -18,9 +20,6 @@ class SpracheProvider extends ChangeNotifier {
     _sprache = _erhalteSprache(land);
     _laenderLokale = _erhalteLaenderLokale(_sprache);
     Intl.defaultLocale = _laenderLokale;
-    print('SpracheProvider: $_sprache');
-    print('SpracheProvider: $_laenderLokale');
-
     notifyListeners();
   }
 

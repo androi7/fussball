@@ -1,5 +1,8 @@
+// Packages
 import 'package:flutter/material.dart';
-import 'package:fussball_teams/constants.dart';
+
+// Konstanten
+import 'constants.dart';
 
 class FootballTheme {
   static const TextTheme textTheme = TextTheme(

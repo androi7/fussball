@@ -1,8 +1,13 @@
+// Packages
 import 'package:flutter/material.dart';
-import 'package:fussball_teams/models/sprache_provider.dart';
-import 'package:fussball_teams/models/text_bibliothek.dart';
-import 'package:fussball_teams/utilities/team_helpers.dart';
 import 'package:provider/provider.dart';
+
+// Modelle
+import '../models/sprache_provider.dart';
+import '../models/text_bibliothek.dart';
+
+// Helpers
+import '../utilities/team_helpers.dart';
 
 class TeamScreen extends StatelessWidget {
   static const id = '/team-seite';
@@ -84,7 +89,6 @@ class TeamScreen extends StatelessWidget {
                 text: TextSpan(
                   style: Theme.of(context).textTheme.bodyText1!,
                   children: <InlineSpan>[
-                    // const TextSpan(text: 'Der Club '),
                     TextSpan(
                       text: TextBibliothek.erhalteText(
                           sprache: sprache, bereich: Bereich.club, position: 0),
@@ -93,18 +97,13 @@ class TeamScreen extends StatelessWidget {
                       text: team,
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    // TextSpan(
-                    //   text:
-                    //       ' aus $country hat einen Wert von $_erhalteMarktwert.',
-                    // ),
                     TextSpan(
                       text: TextBibliothek.erhalteText(
                         sprache: sprache,
                         bereich: Bereich.club,
                         position: 1,
                         ersterWert: country,
-                        zweiterWert: _erhalteMarktwertAntwort(
-                            context, sprache), // _erhalteMarktwert,
+                        zweiterWert: _erhalteMarktwertAntwort(context, sprache),
                       ),
                     ),
                   ],

@@ -1,11 +1,11 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 
 import 'api.dart';
 
+/// Die Klasse wird genutzt, um HTTP Requests auszuführen und
+/// liefert das dekodierte JSON Objekt zurück.
 class APIService {
   APIService(this.api);
   final API api;

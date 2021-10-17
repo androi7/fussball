@@ -2,7 +2,7 @@ enum Endpoint {
   teams,
 }
 
-/// Erhalte alle Uri's, die aus einem [host] und einem Endpoint bestehen.
+/// Diese Klasse definiert alle Uri's, die aus einem [host] und einem Endpoint bestehen.
 /// Alle Endpoints werden in einer Map [_paths] aufgelistet und
 /// können mit der [Endpoint] Enumeration ausgewählt werden.
 class API {

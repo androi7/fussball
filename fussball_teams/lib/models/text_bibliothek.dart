@@ -1,18 +1,15 @@
-import 'package:intl/intl.dart';
-
 import 'sprache_provider.dart';
-
-// enum Sprache {
-//   deutsch,
-//   englisch,
-//   polnisch,
-// }
 
 enum Bereich {
   fehler,
   club,
 }
 
+/// Die TextBibliothek enthält den Inhalt für die
+/// verschiedenen Clubs. Die einzelnen Textinhalte
+/// können mit den Parametern aus [Sprache], [Bereich]
+/// und der Position des zurückgegebenen Arrays ausgegeben
+/// werden.
 class TextBibliothek {
   static String erhalteText({
     required Sprache sprache,

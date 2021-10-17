@@ -1,8 +1,14 @@
+// Packages
 import 'package:flutter/material.dart';
-import 'package:fussball_teams/models/sprache_provider.dart';
-import 'package:fussball_teams/utilities/team_helpers.dart';
 import 'package:provider/provider.dart';
 
+// Modelle
+import '../models/sprache_provider.dart';
+
+// Helpers
+import '../utilities/team_helpers.dart';
+
+// Seiten
 import '../screens/team_screen.dart';
 
 class TeamCard extends StatelessWidget {
@@ -61,12 +67,6 @@ class TeamCard extends StatelessWidget {
               width: size.height * 0.1,
               fit: BoxFit.contain,
             ),
-            // Image(
-            //   image: NetworkImage(image),
-            //   width: size.height * 0.1,
-            //   height: size.height * 0.1,
-            //   fit: BoxFit.cover,
-            // ),
             const SizedBox(width: 10),
             Expanded(
               child: Column(
@@ -79,8 +79,7 @@ class TeamCard extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     child: Text(
                       TeamHelpers.erhalteMarktwert(
-                          sprache: sprache,
-                          value: value), // _erhalteMarktwert(),
+                          sprache: sprache, value: value),
                       style: textTheme.subtitle1,
                     ),
                   )

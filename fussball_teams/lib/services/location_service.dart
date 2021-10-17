@@ -34,8 +34,6 @@ class LocationService {
         var address = await geoCode.reverseGeocoding(
             latitude: locationData.latitude!,
             longitude: locationData.longitude!);
-        print('loction: ${locationData.latitude}, ${locationData.longitude}');
-        print('address: $address');
 
         return address.countryCode;
       } else {

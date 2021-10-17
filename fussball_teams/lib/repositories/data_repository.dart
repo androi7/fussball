@@ -1,8 +1,17 @@
-import 'package:fussball_teams/models/models.dart';
-import 'package:fussball_teams/services/api.dart';
-import 'package:fussball_teams/services/api_service.dart';
+// Packages
 import 'package:http/http.dart';
 
+// Modelle
+import '../models/models.dart';
+
+// Services
+import '../services/api.dart';
+import '../services/api_service.dart';
+
+/// Diese Klasse enthält alle HTTP Requests, sowie eine
+/// zusätzliche Funktion [sortieren], um Fussball Clubs
+/// entweder aufsteigend nach deren Namen oder dessen
+/// Vereinswerts zu sortieren.
 class DataRepository {
   DataRepository({required this.apiService});
   final APIService apiService;

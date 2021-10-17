@@ -1,24 +1,24 @@
-import 'dart:ffi';
 import 'dart:io';
 
+// Packages
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:fussball_teams/components/show_alert_dialog.dart';
-import 'package:fussball_teams/models/sprache_provider.dart';
-import 'package:fussball_teams/repositories/data_repository.dart';
-import 'package:fussball_teams/services/api.dart';
-import 'package:fussball_teams/services/api_service.dart';
-import 'package:fussball_teams/services/location_service.dart';
 import 'package:provider/provider.dart';
+
+// Repositories
+import '../repositories/data_repository.dart';
 
 // Komponenten
 import '../components/team_card.dart';
+import '../components/show_alert_dialog.dart';
 
 // Services
-import '../services/mock_api_service.dart';
+// import '../services/mock_api_service.dart';
+// import '../services/api_service.dart';
+import '../services/location_service.dart';
 
 // Modelle
 import '../models/models.dart';
+import '../models/sprache_provider.dart';
 
 class TeamsScreen extends StatefulWidget {
   static const id = '/teams-screen';
@@ -48,17 +48,15 @@ class _TeamsScreenState extends State<TeamsScreen> {
     super.initState();
     // _future = MockApiService().erhalteTeams();
     // _future = test();
-
     _dataRepository = Provider.of<DataRepository>(context, listen: false);
     _futureTeams = _dataRepository.erhalteFussballTeams();
     _spracheProvider = Provider.of<SpracheProvider>(context, listen: false);
     Future _futureLocation =
         Provider.of<LocationService>(context, listen: false).erhalteLandName();
     _futureTotal = Future.wait([
-      _dataRepository.erhalteFussballTeams(),
+      // _futureTeams,
       _futureLocation,
     ]);
-    // _future = APIService(API()).erhalteEndpoint(endpoint: Endpoint.teams);
   }
 
   @override
@@ -141,7 +139,6 @@ class _TeamsScreenState extends State<TeamsScreen> {
                 if (snapshot.hasData) {
                   _teams = snapshot.data?[0] as List<Team>;
                   var _land = snapshot.data?[1] as String?;
-                  print('land: $_land');
 
                   WidgetsBinding.instance?.addPostFrameCallback((_) {
                     _spracheProvider.setzeSprache(_land);
