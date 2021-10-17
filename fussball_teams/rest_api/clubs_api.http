@@ -1,0 +1,5 @@
+@baseUrl = https://public.allaboutapps.at
+
+###
+GET {{baseUrl}}/hiring/clubs.json
+Accept: application/json
