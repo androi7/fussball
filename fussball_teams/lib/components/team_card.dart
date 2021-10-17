@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fussball_teams/models/sprache_provider.dart';
 import 'package:fussball_teams/utilities/team_helpers.dart';
+import 'package:provider/provider.dart';
 
 import '../screens/team_screen.dart';
 
@@ -21,7 +23,7 @@ class TeamCard extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final textTheme = Theme.of(context).textTheme;
     return InkWell(
-      child: _buildListTile(size, textTheme),
+      child: _buildListTile(context, size, textTheme),
       onTap: () {
         Navigator.push(
           context,
@@ -38,7 +40,8 @@ class TeamCard extends StatelessWidget {
     );
   }
 
-  Padding _buildListTile(Size size, TextTheme textTheme) {
+  Padding _buildListTile(BuildContext context, Size size, TextTheme textTheme) {
+    final sprache = Provider.of<SpracheProvider>(context).erhalteSprache;
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 15,
@@ -76,6 +79,7 @@ class TeamCard extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     child: Text(
                       TeamHelpers.erhalteMarktwert(
+                          sprache: sprache,
                           value: value), // _erhalteMarktwert(),
                       style: textTheme.subtitle1,
                     ),

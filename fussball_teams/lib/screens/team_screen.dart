@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fussball_teams/models/sprache_provider.dart';
+import 'package:fussball_teams/models/text_bibliothek.dart';
 import 'package:fussball_teams/utilities/team_helpers.dart';
+import 'package:provider/provider.dart';
 
 class TeamScreen extends StatelessWidget {
   static const id = '/team-seite';
@@ -16,11 +19,18 @@ class TeamScreen extends StatelessWidget {
   final String image;
   final int? value;
 
-  String get _erhalteMarktwert =>
-      TeamHelpers.erhalteMarktwert(value: value, withCurrency: true);
+  // String get _erhalteMarktwert =>
+  //     TeamHelpers.erhalteMarktwert(value: value, withCurrency: true);
+
+  String _erhalteMarktwertAntwort(BuildContext context, Sprache sprache) {
+    return TeamHelpers.erhalteMarktwert(
+        sprache: sprache, value: value, withCurrency: true);
+  }
 
   @override
   Widget build(BuildContext context) {
+    final spracheProvider = Provider.of<SpracheProvider>(context);
+    final sprache = spracheProvider.erhalteSprache;
     final appBar = AppBar(
       title: Align(
         alignment: Alignment.centerLeft,
@@ -74,14 +84,28 @@ class TeamScreen extends StatelessWidget {
                 text: TextSpan(
                   style: Theme.of(context).textTheme.bodyText1!,
                   children: <InlineSpan>[
-                    const TextSpan(text: 'Der Club '),
+                    // const TextSpan(text: 'Der Club '),
+                    TextSpan(
+                      text: TextBibliothek.erhalteText(
+                          sprache: sprache, bereich: Bereich.club, position: 0),
+                    ),
                     TextSpan(
                       text: team,
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
+                    // TextSpan(
+                    //   text:
+                    //       ' aus $country hat einen Wert von $_erhalteMarktwert.',
+                    // ),
                     TextSpan(
-                      text:
-                          ' aus $country hat einen Wert von $_erhalteMarktwert.',
+                      text: TextBibliothek.erhalteText(
+                        sprache: sprache,
+                        bereich: Bereich.club,
+                        position: 1,
+                        ersterWert: country,
+                        zweiterWert: _erhalteMarktwertAntwort(
+                            context, sprache), // _erhalteMarktwert,
+                      ),
                     ),
                   ],
                 ),

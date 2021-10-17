@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fussball_teams/models/sprache_provider.dart';
 import 'package:fussball_teams/services/api_service.dart';
 import 'package:fussball_teams/services/location_service.dart';
 import 'package:intl/intl.dart';
@@ -32,6 +33,9 @@ class MyApp extends StatelessWidget {
         ),
         Provider<LocationService>(
           create: (_) => LocationService(),
+        ),
+        ChangeNotifierProvider<SpracheProvider>(
+          create: (_) => SpracheProvider(),
         ),
       ],
       child: MaterialApp(

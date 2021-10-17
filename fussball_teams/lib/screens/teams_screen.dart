@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:fussball_teams/components/show_alert_dialog.dart';
+import 'package:fussball_teams/models/sprache_provider.dart';
 import 'package:fussball_teams/repositories/data_repository.dart';
 import 'package:fussball_teams/services/api.dart';
 import 'package:fussball_teams/services/api_service.dart';
@@ -28,10 +29,12 @@ class TeamsScreen extends StatefulWidget {
 }
 
 class _TeamsScreenState extends State<TeamsScreen> {
-  late Future<List<Team>> _future;
+  late Future<List<Team>> _futureTeams;
+  late Future<List<dynamic>> _futureTotal;
   List<Team> _teams = [];
   var _sortierenNachName = true;
   late DataRepository _dataRepository;
+  late SpracheProvider _spracheProvider;
 
   // Future<List<Team>> test() async {
   //   await Future.delayed(const Duration(
@@ -47,18 +50,24 @@ class _TeamsScreenState extends State<TeamsScreen> {
     // _future = test();
 
     _dataRepository = Provider.of<DataRepository>(context, listen: false);
-    _future = _dataRepository.erhalteFussballTeams();
-
+    _futureTeams = _dataRepository.erhalteFussballTeams();
+    _spracheProvider = Provider.of<SpracheProvider>(context, listen: false);
+    Future _futureLocation =
+        Provider.of<LocationService>(context, listen: false).erhalteLandName();
+    _futureTotal = Future.wait([
+      _dataRepository.erhalteFussballTeams(),
+      _futureLocation,
+    ]);
     // _future = APIService(API()).erhalteEndpoint(endpoint: Endpoint.teams);
   }
 
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
-    String? countryName =
-        await Provider.of<LocationService>(context, listen: false)
-            .erhalteLandName();
-    print('LaenderName: $countryName');
+    // String? countryName =
+    //     await Provider.of<LocationService>(context, listen: false)
+    //         .erhalteLandName();
+    // print('LaenderName: $countryName');
   }
 
   void _toggleFilter() {
@@ -68,7 +77,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
   }
 
   Future<void> _erhalteNeueDaten() async {
-    _future = _dataRepository.erhalteFussballTeams();
+    _futureTeams = _dataRepository.erhalteFussballTeams();
     // _future = MockApiService().erhalteTeams();
 
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -109,8 +118,9 @@ class _TeamsScreenState extends State<TeamsScreen> {
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: _erhalteNeueDaten,
-          child: FutureBuilder<List<Team>>(
-            future: _future,
+          // child: FutureBuilder<List<Team>>(
+          child: FutureBuilder<List<dynamic>>(
+            future: _futureTotal,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
@@ -129,7 +139,15 @@ class _TeamsScreenState extends State<TeamsScreen> {
                       text: 'Etwas ist schief gelaufen');
                 }
                 if (snapshot.hasData) {
-                  _teams = snapshot.data as List<Team>;
+                  _teams = snapshot.data?[0] as List<Team>;
+                  var _land = snapshot.data?[1] as String?;
+                  print('land: $_land');
+
+                  WidgetsBinding.instance?.addPostFrameCallback((_) {
+                    _spracheProvider.setzeSprache(_land);
+                  });
+
+                  // _teams = snapshot.data as List<Team>;
                   return _teams.isNotEmpty
                       ? _buildListView(_teams)
                       : _buildFallbackWidget(
