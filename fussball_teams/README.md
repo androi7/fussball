@@ -13,3 +13,10 @@ Ein Kunde benötigt eine App, die eine aktuelle Rangliste von europäischen Fuß
 https://public.allaboutapps.at/hiring/clubs.json
 - Die App soll in Zukunft auch für andere Märkte genutzt werden können. Diese “App-Klone” werden eine andere Web-Schnittstelle und Farben benutzen, der Rest soll übernommen werden.
 - Die App sollte sich gut anfühlen: korrekte Fehlerbehandlung, einem sinnvollen UX folgen 
+
+## Screenshots
+
+![Club Beschreibung (deutsch)](images/clubs_info_de.png)
+![Club Beschreibung (englisch)](images/clubs_info_de.png)
+![Teams nach Name sortiert](images/clubs_name.png)
+![Teams nach Wert sortiert](images/clubs_value.png)
