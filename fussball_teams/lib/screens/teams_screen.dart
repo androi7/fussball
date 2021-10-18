@@ -54,7 +54,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
     Future _futureLocation =
         Provider.of<LocationService>(context, listen: false).erhalteLandName();
     _futureTotal = Future.wait([
-      // _futureTeams,
+      _futureTeams,
       _futureLocation,
     ]);
   }

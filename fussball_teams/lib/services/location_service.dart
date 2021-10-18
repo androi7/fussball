@@ -25,7 +25,13 @@ class LocationService {
       }
     }
 
-    locationData = await location.getLocation();
+    try {
+      // TODO: Manchmal lädt getLocation nicht rechtzeitig, füge Fallback Lösung hinzu.
+      locationData =
+          await location.getLocation().timeout(const Duration(seconds: 10));
+    } catch (_) {
+      return null;
+    }
 
     GeoCode geoCode = GeoCode();
 

@@ -1,14 +1,11 @@
 # fussball_teams
-
 ## Uebersicht
 
 Ein Kunde benötigt eine App, die eine aktuelle Rangliste von europäischen Fußball-Spitzenteams darstellt. Das Ranking anhand der Marktwerte wird täglich neu berechnet.
 
 ## Anforderungen
 
-- App soll lauffähig sein unter 
-- Android 6.0
-- iOS 12+ & iPhone only (optional)
+- App soll lauffähig sein unter Android 6.0, iOS 12+ & iPhone only (optional)
 - Hauptfarbe: #01C13B
 - App soll für Lokalisierung vorbereitet sein. Unter anderem ist es geplant, für einen späteren Release, dass neben Deutsch noch Englisch und Polnisch unterstützt werden.
 - Ein Design befindet sich auf den nachfolgenden Seiten.
