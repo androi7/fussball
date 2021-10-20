@@ -1,4 +1,5 @@
 // Packages
+import 'package:fussball_teams/repositories/repository.dart';
 import 'package:http/http.dart';
 
 // Modelle
@@ -12,10 +13,11 @@ import '../services/api_service.dart';
 /// zusätzliche Funktion [sortieren], um Fussball Clubs
 /// entweder aufsteigend nach deren Namen oder dessen
 /// Vereinswerts zu sortieren.
-class DataRepository {
+class DataRepository extends Repository {
   DataRepository({required this.apiService});
   final APIService apiService;
 
+  @override
   Future<List<Team>> erhalteFussballTeams() async {
     try {
       final data =
@@ -30,24 +32,5 @@ class DataRepository {
     } on Response catch (_) {
       rethrow;
     }
-  }
-
-  List<Team> sortieren({
-    List<Team> teams = const [],
-    bool nachName = true,
-  }) {
-    // für das Sortieren einer Liste benötigt es mindestens zwei Einheiten
-    if (teams.length > 1) {
-      if (nachName) {
-        teams.sort((a, b) => a.name.compareTo(b.name));
-      } else {
-        teams.sort((a, b) {
-          final vorherigerWert = a.value ?? 0;
-          final naechsterWert = b.value ?? 0;
-          return vorherigerWert.compareTo(naechsterWert);
-        });
-      }
-    }
-    return teams;
   }
 }

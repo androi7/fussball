@@ -2,6 +2,8 @@ import 'dart:io';
 
 // Packages
 import 'package:flutter/material.dart';
+import 'package:fussball_teams/repositories/repository.dart';
+import 'package:fussball_teams/services/mock_api_service.dart';
 import 'package:provider/provider.dart';
 
 // Repositories
@@ -33,7 +35,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
   late Future<List<dynamic>> _futureTotal;
   List<Team> _teams = [];
   var _sortierenNachName = true;
-  late DataRepository _dataRepository;
+  late Repository _repository;
   late SpracheProvider _spracheProvider;
 
   // Future<List<Team>> test() async {
@@ -46,10 +48,9 @@ class _TeamsScreenState extends State<TeamsScreen> {
   @override
   void initState() {
     super.initState();
-    // _future = MockApiService().erhalteTeams();
     // _future = test();
-    _dataRepository = Provider.of<DataRepository>(context, listen: false);
-    _futureTeams = _dataRepository.erhalteFussballTeams();
+    _repository = Provider.of<Repository>(context, listen: false);
+    _futureTeams = _repository.erhalteFussballTeams();
     _spracheProvider = Provider.of<SpracheProvider>(context, listen: false);
     Future _futureLocation =
         Provider.of<LocationService>(context, listen: false).erhalteLandName();
@@ -75,9 +76,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
   }
 
   Future<void> _erhalteNeueDaten() async {
-    _futureTeams = _dataRepository.erhalteFussballTeams();
-    // _future = MockApiService().erhalteTeams();
-
+    _futureTeams = _repository.erhalteFussballTeams();
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text('Neue Daten'),
       duration: Duration(seconds: 1),
@@ -103,12 +102,8 @@ class _TeamsScreenState extends State<TeamsScreen> {
             splashRadius: 20.0,
             onPressed: () {
               _toggleFilter();
-              _dataRepository.sortieren(
+              _repository.sortieren(
                   teams: _teams, nachName: _sortierenNachName);
-              // MockApiService.sortieren(
-              //   teams: _teams,
-              //   nachName: _sortierenNachName,
-              // );
             },
           ),
         ],
