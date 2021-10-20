@@ -20,3 +20,7 @@ https://public.allaboutapps.at/hiring/clubs.json
 ![Club Beschreibung (englisch)](images/clubs_info_en.png)
 ![Teams nach Name sortiert](images/clubs_name.png)
 ![Teams nach Wert sortiert](images/clubs_value.png)
+
+## Nutzung
+- Starte Projekt mit MockServer: `flutter run -t lib/main_test.dart`
+- Starte Projekt mit richtigem Server: `flutter run -t lib/main.dart`
