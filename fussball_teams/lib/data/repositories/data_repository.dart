@@ -1,9 +1,11 @@
 // Packages
-import 'package:fussball_teams/repositories/repository.dart';
 import 'package:http/http.dart';
 
 // Modelle
 import '../models/models.dart';
+
+// Repositories
+import 'repository.dart';
 
 // Services
 import '../services/api.dart';

@@ -45,4 +45,14 @@ class Team {
       location: location,
     );
   }
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'country': country,
+        'value': value,
+        'image': image,
+        'european_titles': titles,
+        'stadium': stadium,
+        'location': location,
+      };
 }

@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // Modelle
-import '../models/sprache_provider.dart';
-import '../models/text_bibliothek.dart';
+import '../data/models/sprache_provider.dart';
+import '../data/models/text_bibliothek.dart';
 
 // Helpers
 import '../utilities/team_helpers.dart';
+
+// Konstanten
+import '../constants.dart';
 
 class TeamScreen extends StatelessWidget {
   static const id = '/team-seite';
@@ -62,6 +65,8 @@ class TeamScreen extends StatelessWidget {
                 Center(
                   child: Image(
                     image: NetworkImage(image),
+                    errorBuilder: (_, __, ___) =>
+                        Image.asset(kImagePlaceholderPath),
                     height: imageContainerHeight * 2 / 3,
                   ),
                 ),

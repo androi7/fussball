@@ -2,25 +2,25 @@ import 'dart:io';
 
 // Packages
 import 'package:flutter/material.dart';
-import 'package:fussball_teams/repositories/repository.dart';
-import 'package:fussball_teams/services/mock_api_service.dart';
 import 'package:provider/provider.dart';
-
-// Repositories
-import '../repositories/data_repository.dart';
 
 // Komponenten
 import '../components/team_card.dart';
 import '../components/show_alert_dialog.dart';
 
+// Repositories
+import '../data/repositories/repository.dart';
+import '../data/sqlite/sqlite_repository.dart';
+
 // Services
-// import '../services/mock_api_service.dart';
-// import '../services/api_service.dart';
-import '../services/location_service.dart';
+import '../data/services/location_service.dart';
 
 // Modelle
-import '../models/models.dart';
-import '../models/sprache_provider.dart';
+import '../data/models/models.dart';
+import '../data/models/sprache_provider.dart';
+
+// Konstanten
+import '../constants.dart';
 
 class TeamsScreen extends StatefulWidget {
   static const id = '/teams-screen';
@@ -37,6 +37,8 @@ class _TeamsScreenState extends State<TeamsScreen> {
   var _sortierenNachName = true;
   late Repository _repository;
   late SpracheProvider _spracheProvider;
+  final _sqlRepository = SqlRepository();
+  late List<Team> _dataFromSql;
 
   // Future<List<Team>> test() async {
   //   await Future.delayed(const Duration(
@@ -51,6 +53,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
     // _future = test();
     _repository = Provider.of<Repository>(context, listen: false);
     _futureTeams = _repository.erhalteFussballTeams();
+
     _spracheProvider = Provider.of<SpracheProvider>(context, listen: false);
     Future _futureLocation =
         Provider.of<LocationService>(context, listen: false).erhalteLandName();
@@ -67,6 +70,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
     //     await Provider.of<LocationService>(context, listen: false)
     //         .erhalteLandName();
     // print('LaenderName: $countryName');
+    _dataFromSql = await _sqlRepository.erhalteFussballTeams();
   }
 
   void _toggleFilter() {
@@ -111,14 +115,13 @@ class _TeamsScreenState extends State<TeamsScreen> {
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: _erhalteNeueDaten,
-          // child: FutureBuilder<List<Team>>(
           child: FutureBuilder<List<dynamic>>(
             future: _futureTotal,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
                   if (snapshot.error.runtimeType == SocketException) {
-                    WidgetsBinding.instance?.addPostFrameCallback((_) {
+                    WidgetsBinding.instance?.addPostFrameCallback((_) async {
                       showAlertDialog(
                         context: context,
                         title: 'Keine Internetverbindung',
@@ -126,6 +129,9 @@ class _TeamsScreenState extends State<TeamsScreen> {
                         defaultActionText: 'OK',
                       );
                     });
+                    if (_dataFromSql.isNotEmpty) {
+                      return _buildListView(_dataFromSql);
+                    }
                   }
                   return _buildFallbackWidget(
                       image: 'assets/images/error.jpeg',
@@ -134,12 +140,12 @@ class _TeamsScreenState extends State<TeamsScreen> {
                 if (snapshot.hasData) {
                   _teams = snapshot.data?[0] as List<Team>;
                   var _land = snapshot.data?[1] as String?;
-
+                  _teams.forEach((team) => _sqlRepository.fuegeTeamHinzu(team));
                   WidgetsBinding.instance?.addPostFrameCallback((_) {
                     _spracheProvider.setzeSprache(_land);
                   });
+                  // _teams = [];
 
-                  // _teams = snapshot.data as List<Team>;
                   return _teams.isNotEmpty
                       ? _buildListView(_teams)
                       : _buildFallbackWidget(
@@ -153,7 +159,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
               }
               return const Center(
                 child: CircularProgressIndicator(
-                  color: Color(0xFF01C13B),
+                  color: kHauptFarbe,
                 ),
               );
             },
@@ -168,6 +174,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
       itemCount: teams.length,
       itemBuilder: (context, index) {
         final team = teams[index];
+
         return TeamCard(
           image: team.image,
           team: team.name,

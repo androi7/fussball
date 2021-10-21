@@ -13,4 +13,9 @@ class Stadium {
       name: json['name'] ?? '',
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'size': size,
+        'name': name,
+      };
 }

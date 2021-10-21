@@ -1,4 +1,5 @@
-import 'package:fussball_teams/models/models.dart';
+// Modelle
+import '../models/models.dart';
 
 abstract class Repository {
   Future<List<Team>> erhalteFussballTeams();

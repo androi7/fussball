@@ -13,4 +13,9 @@ class LocationData {
       lng: json['lng'],
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'lat': lat,
+        'lng': lng,
+      };
 }

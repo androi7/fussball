@@ -1,15 +1,19 @@
 // Packages
 import 'package:flutter/material.dart';
+import 'package:fussball_teams/constants.dart';
 import 'package:provider/provider.dart';
 
 // Modelle
-import '../models/sprache_provider.dart';
+import '../data/models/sprache_provider.dart';
 
 // Helpers
 import '../utilities/team_helpers.dart';
 
 // Seiten
 import '../screens/team_screen.dart';
+
+// Konstanten
+import '../constants.dart';
 
 class TeamCard extends StatelessWidget {
   const TeamCard({
@@ -59,10 +63,10 @@ class TeamCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             FadeInImage.assetNetwork(
-              placeholder: 'assets/images/placeholder.jpeg',
+              placeholder: kImagePlaceholderPath,
               image: image,
               imageErrorBuilder: (context, error, st) {
-                return Container();
+                return Image.asset(kImagePlaceholderPath);
               },
               width: size.height * 0.1,
               fit: BoxFit.contain,

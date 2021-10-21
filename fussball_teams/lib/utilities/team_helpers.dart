@@ -1,5 +1,8 @@
-import 'package:fussball_teams/models/sprache_provider.dart';
+// Packages
 import 'package:intl/intl.dart';
+
+// Models
+import '../data/models/sprache_provider.dart';
 
 class TeamHelpers {
   static erhalteMarktwert({
